@@ -1,0 +1,16 @@
+{
+  "name": "fullstack-js-express4-react-starter",
+  "description": "Starter for express 4 w/ postgres and passportJS for auth",
+  "repository": "",
+  "logo": "",
+  "keywords": [
+    "node",
+    "heroku",
+    "express",
+    "postgres",
+    "mustbe",
+    "sequelize",
+    "passportJs",
+    "react"
+  ]
+}

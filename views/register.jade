@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    if message
+        div(class="alert alert-danger")= message
+
+    form(action="/registerUser" method="POST")
+        label(for="email") Email
+        input(type="text" name="email")
+
+        label(for="firstName") First Name
+        input(type="text" name="firstName")
+
+        label(for="lastName") Last Name
+        input(type="text" name="lastName")
+
+        label(for="password") Password
+        input(type="password" name="password")
+
+        label(for="confirmPassword") Confirm Password
+        input(type="password" name="confirmPassword")
+
+        input(type="submit" value="Register" class="btn")

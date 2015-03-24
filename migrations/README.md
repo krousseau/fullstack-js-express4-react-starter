@@ -1,0 +1,3 @@
+In order to add data to a newly created table...
+createTable returns a promise so you can run the following inside of then():
+migration.sequelize.query("INSERT INTO myTable(col1, \"createdAt\", \"updatedAt\") VALUES ('foo', current_timestamp, current_timestamp)");
