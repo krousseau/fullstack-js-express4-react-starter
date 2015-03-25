@@ -1,4 +1,5 @@
 node_modules/
 output/
-public/
+public/css
+public/js
 *.log

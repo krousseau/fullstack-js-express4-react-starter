@@ -24,9 +24,10 @@ gulp.task('css', ['css:clean'], function () {
     .pipe(livereload());
 });
 
-gulp.task('css:clean', function() {
-    return gulp.src(pkg.paths.dest.css, { read: false })
-        .pipe(rimraf({ force: true }));
+gulp.task('css:clean', function (cb) {
+  del([
+    pkg.paths.dest.css
+  ], cb);
 });
 
 // Run sequelize db migrations
