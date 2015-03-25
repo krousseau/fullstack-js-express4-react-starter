@@ -79,7 +79,7 @@ gulp.task('webpack', ['clean'], function() {
             errors: true,
             warnings: true
         }))
-        .pipe(gulp.dest(pkg.paths.dest.js));
+        .pipe(gulp.dest(pkg.paths.dest.webpackRoot));
 });
 
 
