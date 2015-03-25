@@ -7,7 +7,8 @@ var config = {
         app: './front-end/src/js/app.js'
     },
     output: {
-        path: './public/js',
+        path: __dirname + '/public/js',
+        publicPath: '/js/',
         filename: '[name].js'
     },
     module: {

@@ -64,8 +64,7 @@
     "react"
   ],
   "license": "MIT",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "paths": {
     "source": {
       "css": [
@@ -81,7 +80,8 @@
     },
     "dest": {
       "css": "public/css",
-      "js": "/"
+      "js": "public/js",
+      "webpackRoot": "/"
     }
   }
 }

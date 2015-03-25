@@ -3,7 +3,7 @@ var gulp       = require('gulp');
 var sass       = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var plumber    = require('gulp-plumber');
-var rimraf     = require('gulp-rimraf');
+var del        = require('del');
 var pkg        = require('./package.json');
 var webpack    = require('gulp-webpack-build');
 var livereload = require('gulp-livereload');
@@ -13,7 +13,7 @@ var eslint     = require('gulp-eslint');
 var run        = require('gulp-run');
 //var rev        = require('gulp-rev');
 
-gulp.task('css', ['css:clean'], function () {
+gulp.task('css', ['clean'], function () {
   return gulp.src(pkg.paths.source.css)
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -24,9 +24,10 @@ gulp.task('css', ['css:clean'], function () {
     .pipe(livereload());
 });
 
-gulp.task('css:clean', function (cb) {
+gulp.task('clean', function (cb) {
   del([
-    pkg.paths.dest.css
+    pkg.paths.dest.css,    
+    pkg.paths.dest.js
   ], cb);
 });
 
@@ -58,10 +59,10 @@ gulp.task('watch', ['build'], function() {
     });
 });
 
-gulp.task('build', ['css', 'webpack', 'lint:server', 'db:migrate']);
+gulp.task('build', ['css', 'webpack', 'lint:server']);
 gulp.task('default', ['build']);
 
-gulp.task('webpack', [], function() {
+gulp.task('webpack', ['clean'], function() {
     return gulp.src(webpack.config.CONFIG_FILENAME)
         .pipe(webpack.compile())
         .pipe(webpack.format({
@@ -72,7 +73,7 @@ gulp.task('webpack', [], function() {
             errors: true,
             warnings: true
         }))
-        .pipe(gulp.dest(pkg.paths.dest.js));
+        .pipe(gulp.dest(pkg.paths.dest.webpackRoot));
 });
 
 

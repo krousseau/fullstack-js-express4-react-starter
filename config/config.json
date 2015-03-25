@@ -15,10 +15,11 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "xxxx",
-    "password": "xxxx",
-    "database": "xxxx",
-    "host": "xxxx",
+    "username": "xx",
+    "password": "xx",
+    "database": "xx",
+    "host": "xx",
+    "port": "5432",
     "dialect": "postgres"
   }
 }
