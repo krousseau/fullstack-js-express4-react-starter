@@ -3,13 +3,11 @@
 A starter app using a pretty typical NodeJs stack w/ a postgreSql backend. Below is a rundown of the tool stack that is used.
 
 ## Getting Started
-- go to config/config.json and update the database credentials
-- run "npm install"
-- run "gulp build"
-- Install the following globally:
--- npm install -g sequelize-cli
--- npm install -g webpack
--- npm install -g eslint
+- install nodejs & postgresql
+- create a postgres database named "starter"
+- go to config/config.json and update the database credentials (they are defaulted to postgres/root)
+- run "npm install" (runs gulp build as a postinstall step)
+- run "gulp db:migrate"
 - start the web server using "npm start"
 
 ## Build w/ Gulp & Webpack
