@@ -1,7 +1,9 @@
 'use strict';
 
-var express = require('express');
-var models  = require('../models');
+var express    = require('express');
+var models     = require('../models');
+var Securables = require('../config/securables');
+var mustbe     = require('mustbe').routeHelpers();
 
 /*eslint-disable*/
 var router  = express.Router();
@@ -22,33 +24,33 @@ function ensureAuthenticated(req, res, next) {
 }
 
 module.exports = function(app, passport) {
-    // models
-    var User    = models.user;
-    var Company = models.company;
+  // models
+  var User    = models.user;
+  var Company = models.company;
 
-    router.use(ensureAuthenticated);
+  router.use(ensureAuthenticated);
 
-    router.route('/companies')
-        .get(function(req, res) {
-            Company.findAll()
-                .then(function (companies) {
-                    res.send(companies);
-                })
-                .catch(function(err) {
-                    res.send('error: ' + err);
-                });
-        });
+  router.route('/companies')
+      .get(function(req, res) {
+          Company.findAll()
+            .then(function (companies) {
+              res.send(companies);
+            })
+            .catch(function(err) {
+              res.send('error: ' + err);
+            });
+      });
 
-    router.route('/users')
-        .get(function(req, res) {
-            User.findAll()
-                .then(function (users) {
-                   res.send(users);
-                })
-                .catch(function(err) {
-                    res.send('error: ' + err);
-                });
-        });
+  router.route('/users')
+    .get(mustbe.authorized(Securables.viewUsers, function(req, res) {
+        User.findAll()
+          .then(function (users) {
+             res.send(users);
+          })
+          .catch(function(err) {
+              res.send('error: ' + err);
+          });
+    }));
 
-    return router;
+  return router;
 };

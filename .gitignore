@@ -1,5 +1,5 @@
 node_modules/
 output/
-public/css
-public/js
+public/css/
+public/js/
 *.log

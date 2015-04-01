@@ -1,5 +1,7 @@
 'use strict';
 
+var msgConstants = require('../config/messageConstants');
+
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
@@ -7,10 +9,8 @@
 //   login page.
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        console.log('isAuthenticated == true');
         return next();
     }
-    console.log('isAuthenticated == false');
     res.redirect('/login');
 }
 
@@ -22,16 +22,24 @@ module.exports = function(app, passport) {
     });
 
     app.get('/login', function(req, res){
-        res.render('login');
+        res.render('login', {
+          messages: req.flash(msgConstants.LOGIN)
+        });
     });
 
     app.get('/register', function(req, res){
-        res.render('register');
+      res.render('register', {
+        messages: req.flash(msgConstants.REGISTER)
+      });
     });
 
     app.get('/logout', function(req, res){
         req.logout();
         res.redirect('/login');
+    });
+
+    app.get('/unauthorized', ensureAuthenticated, function(req, res) {
+        res.render('unauthorized');
     });
 
     // --------------------------------- POSTS -------------------------------------

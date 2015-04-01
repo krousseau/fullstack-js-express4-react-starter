@@ -1,9 +1,6 @@
 extends layout
 
 block content
-    if message
-        div(class="alert alert-danger")= message
-
     form(action="/registerUser" method="POST")
         label(for="email") Email
         input(type="text" name="email")

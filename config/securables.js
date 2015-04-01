@@ -1,8 +1,8 @@
 'use strict';
 
 var securables = {
-  companies: 'companies',
-  users: 'users'
+  viewCompanies: 'companies:view',
+  viewUsers: 'users:view'
 };
 
 module.exports = securables;

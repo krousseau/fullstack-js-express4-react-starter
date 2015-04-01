@@ -8,21 +8,28 @@ var flash          = require('connect-flash');
 var path           = require('path');
 var session        = require('express-session');
 var LocalStrategy  = require('passport-local').Strategy;
+var mustBe         = require('mustbe');
 
 var app = express();
 
 app.set('port', process.env.PORT || 5000);
 
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: 'somesecrethere',
     saveUninitialized: true,
     resave: true
 }));
+
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 passportConfig(app, passport);
+
+// set up mustbe
+var mustBeConfig = require('./config/mustBeConfig');
+mustBe.configure(mustBeConfig);
 
 //configure body-parser
 app.use(bodyParser.json());
@@ -31,22 +38,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // // all environments
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-// app.use(express.favicon());
-// app.use(express.logger('dev'));
-// app.use(express.methodOverride());
-// app.use(express.cookieParser('your secret here'));
-// app.use(express.session());
-// app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
 
 // // development only
 // if ('development' == app.get('env')) {
 //   app.use(express.errorHandler());
 // }
 
-require('./routes/accountRoutes.js')(app, passport);
+require('./routes/accountRoutes')(app, passport);
 
-var apiRoutes = require('./routes/apiRoutes.js')(app, passport);
+var apiRoutes = require('./routes/apiRoutes')(app, passport);
 app.use('/api', apiRoutes);
 
 app.listen(app.get('port'), function() {

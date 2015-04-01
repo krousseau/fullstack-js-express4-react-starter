@@ -26,7 +26,7 @@ gulp.task('css', ['clean'], function () {
 
 gulp.task('clean', function (cb) {
   del([
-    pkg.paths.dest.css,    
+    pkg.paths.dest.css,
     pkg.paths.dest.js
   ], cb);
 });
@@ -54,6 +54,7 @@ gulp.task('watch', ['build'], function() {
                             verbose: true,
                             version: false
                         }))
+                        .pipe(gulp.dest(pkg.paths.dest.js))
                         .pipe(livereload());
                 }));
         }

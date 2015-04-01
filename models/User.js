@@ -1,9 +1,10 @@
 'use strict';
 
 var Sequelize = require('sequelize');
+var UserRole  = require('./UserRole');
 
 module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('user', {
+    var User = sequelize.define('user', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -21,12 +22,24 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-              isEmail: true
+              isEmail: {
+                msg: 'Email address is not valid'
+              }
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false
         }
+      },
+      {
+        classMethods: {
+        associate: function(models) {
+          console.log('associating UserRoles w/ User');
+          User.hasMany(models.userRole, {as: 'UserRoles'});
+        }
+      }
   });
+
+  return User;
 };

@@ -4,6 +4,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt        = require('bcrypt-nodejs');
 var Roles         = require('./roles');
 var models        = require('../models');
+var msgConstants  = require('./messageConstants');
+var debug         = require('debug')('passport');
 
 function validatePassword(user, password){
     return bcrypt.compareSync(password, user.password);
@@ -16,6 +18,7 @@ function hashPassword(password){
 // expose this function to our app using module.exports
 module.exports = function(app, passport) {
     var User = models.user;
+    var UserRole = models.userRole;
     // =========================================================================
     // passport session setup ==================================================
     // =========================================================================
@@ -28,8 +31,9 @@ module.exports = function(app, passport) {
     });
 
     // used to deserialize the user
+    var curUser = null;
     passport.deserializeUser(function(id, done) {
-        User.find(id)
+        User.find({where: {id: id}, include: {model: UserRole, as: 'UserRoles'}})
             .then(function(user){
                 done(null, user);
             });
@@ -52,8 +56,9 @@ module.exports = function(app, passport) {
         process.nextTick(function() {
             // Do password and confirm password match?
             if(password !== req.body.confirmPassword){
-                console.log('passwords do not match');
-                return done(null, false, req.flash('signupMessage', 'Passwords do not match'));
+                debug('passwords do not match');
+                return done(null, false,
+                  req.flash(msgConstants.REGISTER, 'Passwords do not match'));
             }
 
             // find a user whose email is the same as the forms email
@@ -62,7 +67,8 @@ module.exports = function(app, passport) {
                 .then(function(user){
                     // check to see if theres already a user with that email
                     if (user) {
-                      return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                      return done(null, false,
+                        req.flash(msgConstants.REGISTER, 'That email is already taken.'));
                     } else {
                         // if there is no user with that email create the user
                         User.create({
@@ -84,13 +90,9 @@ module.exports = function(app, passport) {
                           return done(null, createdUser);
                         })
                         .catch(function(err){
-                          console.log('Error creating user: ' + err);
-                          return done(null, false, req.flash('signupMessage', 'Email address is not valid'));
-                              // Is the email address format valid?
-                              // if(!validateEmailAddress(email)){
-                              //     console.log('invalid email address: ' + email);
-                              //     return done(null, false, req.flash('signupMessage', 'Email address is not valid'));
-                              // }
+                          console.log('Error creating user: ' + JSON.stringify(err));
+                          return done(null, false,
+                            req.flash(msgConstants.REGISTER, err.errors[0].value));
                         });
                     }
                 });
@@ -123,7 +125,8 @@ module.exports = function(app, passport) {
                     }
 
                     // Give a generic message about user or password not found if they didn't validate
-                    return done(null, false, req.flash('Invalid email or password'));
+                    return done(null, false,
+                      req.flash(msgConstants.LOGIN, 'Invalid email or password'));
                 });
         });
     }));

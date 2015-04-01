@@ -32,15 +32,26 @@ function attachSecurableToUser(securable){
 }
 
 addRole(roles.admin);
-attachSecurableToAdmin(Securables.companies);
-attachSecurableToAdmin(Securables.users);
+attachSecurableToAdmin(Securables.viewCompanies);
+attachSecurableToAdmin(Securables.viewUsers);
 
 addRole(roles.companyAdmin);
-attachSecurableToCompanyAdmin(Securables.users);
+attachSecurableToCompanyAdmin(Securables.viewUsers);
 
 addRole(roles.user);
 
 module.exports = {
   roles: roles,
-  securables: roleSecurablesMap
+  isRoleAllowed: function(userRoles, securable){
+    var isAllowed = false;
+    userRoles.forEach(role => {
+      console.log('checking for role: ' + role.roleName);
+      var roleSecurables = roleSecurablesMap[role.roleName];
+      if(roleSecurables.securables[securable]){
+        isAllowed = true;
+        return;
+      }
+    });
+    return isAllowed;
+  }
 };
