@@ -115,18 +115,24 @@ module.exports = function(app, passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
+          var LoginHistory = models.loginHistory;
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             User.find({ where: { 'email': email } })
                 .then(function(user){
                     // If we found the user and they have a valid password then return them
                     if (user && validatePassword(user, password)) {
+                      LoginHistory.create({
+                        userId: user.id
+                      })
+                      .then(function(createdUser){
                         return done(null, user);
+                      });
+                    } else {
+                      // Give a generic message about user or password not found if they didn't validate
+                      return done(null, false,
+                        req.flash(msgConstants.LOGIN, 'Invalid email or password'));
                     }
-
-                    // Give a generic message about user or password not found if they didn't validate
-                    return done(null, false,
-                      req.flash(msgConstants.LOGIN, 'Invalid email or password'));
                 });
         });
     }));
