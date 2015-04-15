@@ -45,7 +45,6 @@ module.exports = {
   isRoleAllowed: function(userRoles, securable){
     var isAllowed = false;
     userRoles.forEach(role => {
-      console.log('checking for role: ' + role.roleName);
       var roleSecurables = roleSecurablesMap[role.roleName];
       if(roleSecurables.securables[securable]){
         isAllowed = true;

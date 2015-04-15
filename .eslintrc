@@ -4,9 +4,7 @@
         "console": true
     },
 
-    "ecmaFeatures": {
-        "jsx": true
-    },
+    "parser": "babel-eslint",
 
     "env": {
       "browser": true,

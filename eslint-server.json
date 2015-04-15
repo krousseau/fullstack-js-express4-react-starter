@@ -4,8 +4,7 @@
         "console": true
     },
 
-    "ecmaFeatures": {
-    },
+    "parser": "babel-eslint",
 
     "env": {
       "node": true

@@ -1,3 +1,5 @@
+'use strict';
+
 var Securables = require('./securables');
 var Roles      = require('./roles');
 
@@ -30,19 +32,19 @@ module.exports = function(config){
 
     // default action to take when user is not authenticated
     rh.notAuthenticated(function(req, res, next){
-      res.redirect("/login");
+      res.redirect('/login');
     });
   });
 
   config.activities(function(activities){
     function allow(identity, activity){
-      var user = identity.user;
-      var allow = false;
+      let user = identity.user;
+      let isAllowed = false;
 
       console.log('ROLE USER CHECK: ' + JSON.stringify(user));
-      var allow = Roles.isRoleAllowed(user.UserRoles, activity);
-      console.log('Allow (' + activity + ')? ' + allow);
-      return allow;
+      isAllowed = Roles.isRoleAllowed(user.UserRoles, activity);
+      console.log('Allow (' + activity + ')? ' + isAllowed);
+      return isAllowed;
     }
 
     // provide a global "allow" override for special users.

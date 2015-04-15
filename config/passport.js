@@ -78,7 +78,6 @@ module.exports = function(app, passport) {
                           lastName: req.body.lastName
                         })
                         .then(function(createdUser){
-                          var UserRole = models.userRole;
                           // Give the user the 'user' role by default
                           return UserRole.create({
                             userId: createdUser.id,

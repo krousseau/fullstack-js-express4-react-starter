@@ -38,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // // all environments
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.disable('x-powered-by');
 
 // // development only
 // if ('development' == app.get('env')) {
