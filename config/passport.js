@@ -1,19 +1,14 @@
 'use strict';
 
 var LocalStrategy = require('passport-local').Strategy;
-var bcrypt        = require('bcrypt-nodejs');
+var bcrypt        = require('bcrypt');
 var Roles         = require('./roles');
+var Promise       = require('bluebird');
 var models        = require('../models');
 var msgConstants  = require('./messageConstants');
 var debug         = require('debug')('passport');
 
-function validatePassword(user, password){
-    return bcrypt.compareSync(password, user.password);
-}
-
-function hashPassword(password){
-    return bcrypt.hashSync(password);
-}
+var comparePasswordAsync = Promise.promisify(bcrypt.compare);
 
 // expose this function to our app using module.exports
 module.exports = function(app, passport) {
@@ -70,12 +65,17 @@ module.exports = function(app, passport) {
                       return done(null, false,
                         req.flash(msgConstants.REGISTER, 'That email is already taken.'));
                     } else {
-                        // if there is no user with that email create the user
-                        User.create({
-                          email: email,
-                          password: hashPassword(password),
-                          firstName: req.body.firstName,
-                          lastName: req.body.lastName
+                      // if there is no user with that email create the user
+                      var hashAsync = Promise.promisify(bcrypt.hash, bcrypt);
+                      hashAsync(password, 10)
+                        .then(function(encryptedPass){
+                          console.log('creating user with pass: ' + encryptedPass);
+                          return User.create({
+                            email: email,
+                            password: encryptedPass,
+                            firstName: req.body.firstName,
+                            lastName: req.body.lastName
+                          })
                         })
                         .then(function(createdUser){
                           // Give the user the 'user' role by default
@@ -114,24 +114,33 @@ module.exports = function(app, passport) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
+          console.log('checking user: ' + email);
+
           var LoginHistory = models.loginHistory;
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             User.find({ where: { 'email': email } })
                 .then(function(user){
-                    // If we found the user and they have a valid password then return them
-                    if (user && validatePassword(user, password)) {
-                      LoginHistory.create({
-                        userId: user.id
-                      })
-                      .then(function(createdUser){
-                        return done(null, user);
-                      });
-                    } else {
-                      // Give a generic message about user or password not found if they didn't validate
-                      return done(null, false,
-                        req.flash(msgConstants.LOGIN, 'Invalid email or password'));
-                    }
+                  return comparePasswordAsync(password, user.password);
+                })
+                .then(function(isValid){
+                  if(isValid === false){
+                    console.log('invalid password');
+                    return Promise.reject('invalid password');
+                  }
+                  console.log('password validated: ' + isValid);
+
+                  return LoginHistory.create({
+                    userId: user.id
+                  });
+                })
+                .then(function(){
+                  return done(null, user);
+                })
+                .catch(function(){
+                  // Give a generic message about user or password not found if they didn't validate
+                  return done(null, false,
+                    req.flash(msgConstants.LOGIN, 'Invalid email or password'));
                 });
         });
     }));

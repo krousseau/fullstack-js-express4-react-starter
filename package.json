@@ -11,7 +11,7 @@
     "babel-core": "^4.7.16",
     "babel-eslint": "^3.0.1",
     "babel-loader": "^4.2.0",
-    "bcrypt-nodejs": "0.0.3",
+    "bcrypt": "^0.8.2",
     "bluebird": "^2.9.14",
     "body-parser": "^1.12.2",
     "bootstrap-sass": "^3.2.0",
