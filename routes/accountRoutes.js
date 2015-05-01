@@ -18,7 +18,11 @@ module.exports = function(app, passport) {
     // --------------------------------- GETS --------------------------------------
 
     app.get('/', ensureAuthenticated, function(req, res) {
-        res.render('reactApp');
+      res.render('reactApp');
+    });
+
+    app.get('/', ensureAuthenticated, function(req, res) {
+      res.render('adminApp');
     });
 
     app.get('/login', function(req, res){

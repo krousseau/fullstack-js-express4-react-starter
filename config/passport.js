@@ -75,7 +75,7 @@ module.exports = function(app, passport) {
                             password: encryptedPass,
                             firstName: req.body.firstName,
                             lastName: req.body.lastName
-                          })
+                          });
                         })
                         .then(function(createdUser){
                           // Give the user the 'user' role by default
@@ -119,23 +119,22 @@ module.exports = function(app, passport) {
           var LoginHistory = models.loginHistory;
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            User.find({ where: { 'email': email } })
+            User.find({ where: { 'email': email } }).bind({})
                 .then(function(user){
+                  this.user = user;
                   return comparePasswordAsync(password, user.password);
                 })
                 .then(function(isValid){
                   if(isValid === false){
-                    console.log('invalid password');
                     return Promise.reject('invalid password');
                   }
-                  console.log('password validated: ' + isValid);
 
                   return LoginHistory.create({
-                    userId: user.id
+                    userId: this.user.id
                   });
                 })
                 .then(function(){
-                  return done(null, user);
+                  return done(null, this.user);
                 })
                 .catch(function(){
                   // Give a generic message about user or password not found if they didn't validate

@@ -31,15 +31,15 @@ module.exports = function(app, passport) {
   router.use(ensureAuthenticated);
 
   router.route('/companies')
-      .get(function(req, res) {
-          Company.findAll()
-            .then(function (companies) {
-              res.send(companies);
-            })
-            .catch(function(err) {
-              res.send('error: ' + err);
-            });
-      });
+    .get(mustbe.authorized(Securables.viewCompanies, function(req, res) {
+        Company.findAll()
+          .then(function (companies) {
+            res.send(companies);
+          })
+          .catch(function(err) {
+            res.send('error: ' + err);
+          });
+    });
 
   router.route('/users')
     .get(mustbe.authorized(Securables.viewUsers, function(req, res) {
