@@ -25,7 +25,7 @@ var config = {
             }
         ]
     },
-    devtool: 'eval-source-map',
+    devtool: 'eval',
     plugins: [
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
     ]

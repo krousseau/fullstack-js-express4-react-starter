@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
       res.render('reactApp');
     });
 
-    app.get('/', ensureAuthenticated, function(req, res) {
+    app.get('/admin', ensureAuthenticated, function(req, res) {
       res.render('adminApp');
     });
 

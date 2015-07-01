@@ -46,7 +46,7 @@ gulp.task('watch', ['build'], function() {
     gulp.watch(pkg.paths.source.js).on('change', function(event) {
         if (event.type === 'changed') {
             gulp.src(webpack.config.CONFIG_FILENAME)
-                .pipe(webpack.configure(webpackConfig))
+                .pipe(webpack.init(webpackConfig))
                 .pipe(webpack.watch(function(err, stats) {
                     gulp.src(pkg.paths.source.js)
                         .pipe(webpack.proxy(err, stats))
@@ -70,8 +70,8 @@ var webpackConfig = {
 
 gulp.task('webpack', ['clean'], function() {
     return gulp.src(webpack.config.CONFIG_FILENAME)
-        .pipe(webpack.configure(webpackConfig))
-        .pipe(webpack.compile())
+        .pipe(webpack.init(webpackConfig))
+        .pipe(webpack.run())
         .pipe(webpack.format({
             version: false,
             timings: true

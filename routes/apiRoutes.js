@@ -39,7 +39,7 @@ module.exports = function(app, passport) {
           .catch(function(err) {
             res.send('error: ' + err);
           });
-    });
+    }));
 
   router.route('/users')
     .get(mustbe.authorized(Securables.viewUsers, function(req, res) {

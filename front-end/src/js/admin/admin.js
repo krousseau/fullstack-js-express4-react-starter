@@ -1,8 +1,8 @@
 'use strict';
-var React  = require('react');
-var Hello  = require('./components/Hello.jsx');
+import React from 'react';
+import App from './containers/App.jsx';
 
 React.render(
-    React.createElement(Hello, null),
-    document.getElementById('react-app')
+  <App/>,
+  document.getElementById('react-app')
 );
