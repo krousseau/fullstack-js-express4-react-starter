@@ -1,5 +1,4 @@
-'use strict';
-var Promise = require('bluebird');
+let Promise = require('bluebird');
 
 function createUserRolesTable(migration, DataTypes){
     return migration.createTable(

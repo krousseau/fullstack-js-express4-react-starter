@@ -1,5 +1,3 @@
-'use strict';
-
 var express    = require('express');
 var models     = require('../models');
 var Securables = require('../config/securables');

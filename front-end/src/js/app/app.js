@@ -1,6 +1,5 @@
-'use strict';
-var React  = require('react');
-var Hello  = require('./components/Hello.jsx');
+import React from 'react';
+import Hello from './components/Hello.jsx';
 
 React.render(
     React.createElement(Hello, null),

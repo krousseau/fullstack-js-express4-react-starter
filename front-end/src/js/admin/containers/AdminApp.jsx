@@ -1,10 +1,8 @@
-'use strict';
-
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import { connect } from 'redux/react';
+import { connect } from 'react-redux';
 import UserList from '../components/UserList.jsx';
-import * as AdminActions from '../actions/AdminActions.js';
+import * as AdminActions from '../actionCreators/AdminActions.js';
 
 @connect(state => ({
   users: state.users

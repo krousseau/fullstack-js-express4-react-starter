@@ -1,5 +1,3 @@
-'use strict';
-
 var Securables = require('./securables');
 
 var roleSecurablesMap = {};

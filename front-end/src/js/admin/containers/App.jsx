@@ -1,17 +1,16 @@
-'use strict';
-
 import React from 'react';
 import AdminApp from './AdminApp.jsx';
-import { createRedux } from 'redux';
-import { Provider } from 'redux/react';
-import * as stores from '../stores';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import * as reducers from '../reducers';
+import { create } from '../../shared/redux';
 
-const redux = createRedux(stores);
+const store = create(reducers);
 
 export default class App {
   render() {
     return (
-      <Provider redux={redux}>
+      <Provider redux={store}>
         {() => <AdminApp />}
       </Provider>
     );

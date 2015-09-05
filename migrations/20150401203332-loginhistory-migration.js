@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: function(migration, DataTypes, done) {
     migration.createTable(

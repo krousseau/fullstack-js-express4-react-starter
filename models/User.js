@@ -1,5 +1,3 @@
-'use strict';
-
 var Sequelize = require('sequelize');
 var UserRole  = require('./UserRole');
 

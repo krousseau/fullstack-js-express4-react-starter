@@ -1,5 +1,3 @@
-'use strict';
-
 var msgConstants = require('../config/messageConstants');
 
 // Simple route middleware to ensure user is authenticated.
