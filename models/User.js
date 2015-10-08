@@ -33,7 +33,6 @@ module.exports = function(sequelize, DataTypes) {
       {
         classMethods: {
         associate: function(models) {
-          console.log('associating UserRoles w/ User');
           User.hasMany(models.userRole, {as: 'UserRoles'});
         }
       }
