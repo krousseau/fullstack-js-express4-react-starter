@@ -1,31 +1,33 @@
-var Securables = require('./securables');
+'use strict';
 
-var roleSecurablesMap = {};
-var roles = {
+let Securables = require('./securables');
+
+let roleSecurablesMap = {};
+let roles = {
   admin: 'admin',
   companyAdmin: 'companyAdmin',
   user: 'user'
 };
 
-function addRole(roleName){
+function addRole(roleName) {
   roleSecurablesMap[roleName] = {
     securables: {}
   };
 }
 
-function attachSecurableToRole(roleName, securable){
+function attachSecurableToRole(roleName, securable) {
   roleSecurablesMap[roleName].securables[securable] = true;
 }
 
-function attachSecurableToAdmin(securable){
+function attachSecurableToAdmin(securable) {
   attachSecurableToRole(roles.admin, securable);
 }
 
-function attachSecurableToCompanyAdmin(securable){
+function attachSecurableToCompanyAdmin(securable) {
   attachSecurableToRole(roles.companyAdmin, securable);
 }
 
-function attachSecurableToUser(securable){
+function attachSecurableToUser(securable) {
   attachSecurableToRole(roles.user, securable);
 }
 
@@ -40,11 +42,11 @@ addRole(roles.user);
 
 module.exports = {
   roles: roles,
-  isRoleAllowed: function(userRoles, securable){
-    var isAllowed = false;
+  isRoleAllowed: function(userRoles, securable) {
+    let isAllowed = false;
     userRoles.forEach(role => {
-      var roleSecurables = roleSecurablesMap[role.roleName];
-      if(roleSecurables.securables[securable]){
+      let roleSecurables = roleSecurablesMap[role.roleName];
+      if (roleSecurables.securables[securable]) {
         isAllowed = true;
         return;
       }

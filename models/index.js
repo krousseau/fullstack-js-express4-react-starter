@@ -1,10 +1,12 @@
-var fs        = require('fs');
-var path      = require('path');
-var Sequelize = require('sequelize');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
-var sequelize = null;
-var db        = {};
+'use strict';
+
+let fs        = require('fs');
+let path      = require('path');
+let Sequelize = require('sequelize');
+let env       = process.env.NODE_ENV || 'development';
+let config    = require(__dirname + '/../config/config.json')[env];
+let sequelize = null;
+let db        = {};
 
 if (process.env.DATABASE_URL) {
   // the application is executed on Heroku ... use the postgres database
@@ -20,14 +22,11 @@ fs
     return (file.indexOf('.') !== 0) && (file !== 'index.js');
   })
   .forEach(function(file) {
-    var model = sequelize.import(path.join(__dirname, file));
+    let model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
   });
 
 Object.keys(db).forEach(function(modelName) {
-
-
-  console.log('model: ' + modelName);
   if ('associate' in db[modelName]) {
     db[modelName].associate(db);
   }

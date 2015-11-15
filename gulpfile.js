@@ -10,13 +10,12 @@ var debug      = require('gulp-debug');
 var path       = require('path');
 var eslint     = require('gulp-eslint');
 var run        = require('gulp-run');
-//var rev        = require('gulp-rev');
 
 gulp.task('css', ['clean'], function () {
   return gulp.src(pkg.paths.source.css)
     .pipe(sourcemaps.init())
     .pipe(sass({
-        errLogToConsole: true
+      errLogToConsole: true
     }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(pkg.paths.dest.css))
@@ -37,54 +36,54 @@ gulp.task('db:migrate', function () {
 });
 
 gulp.task('watch', ['build'], function() {
-    livereload.listen({
-        host: 'localhost',
-        port: 5000
-    });
-    gulp.watch(pkg.paths.source.css, ['css']);
-    gulp.watch(pkg.paths.source.js).on('change', function(event) {
-        if (event.type === 'changed') {
-            gulp.src(webpack.config.CONFIG_FILENAME)
+  livereload.listen({
+    host: 'localhost',
+    port: 5000
+  });
+  gulp.watch(pkg.paths.source.css, ['css']);
+  gulp.watch(pkg.paths.source.js).on('change', function(event) {
+    if (event.type === 'changed') {
+        gulp.src(webpack.config.CONFIG_FILENAME)
                 .pipe(webpack.init(webpackConfig))
                 .pipe(webpack.watch(function(err, stats) {
-                    gulp.src(pkg.paths.source.js)
+                  gulp.src(pkg.paths.source.js)
                         .pipe(webpack.proxy(err, stats))
                         .pipe(webpack.format({
-                            verbose: true,
-                            version: false
+                          verbose: true,
+                          version: false
                         }))
                         .pipe(gulp.dest(pkg.paths.dest.js))
                         .pipe(livereload());
                 }));
-        }
-    });
+      }
+  });
 });
 
 gulp.task('build', ['css', 'webpack', 'lint:server']);
 gulp.task('default', ['build']);
 
 var webpackConfig = {
-    useMemoryFs: true
+  useMemoryFs: true
 };
 
 gulp.task('webpack', ['clean'], function() {
-    return gulp.src(webpack.config.CONFIG_FILENAME)
+  return gulp.src(webpack.config.CONFIG_FILENAME)
         .pipe(webpack.init(webpackConfig))
         .pipe(webpack.run())
         .pipe(webpack.format({
-            version: false,
-            timings: true
+          version: false,
+          timings: true
         }))
         .pipe(webpack.failAfter({
-            errors: true,
-            warnings: true
+          errors: true,
+          warnings: true
         }))
         .pipe(gulp.dest(pkg.paths.dest.js));
 });
 
 
 gulp.task('lint:server', [], function() {
-    return gulp.src(pkg.paths.source.serverJs)
-        .pipe(eslint('eslint-server.json'))
+  return gulp.src(pkg.paths.source.serverJs)
+        .pipe(eslint())
         .pipe(eslint.format());
 });

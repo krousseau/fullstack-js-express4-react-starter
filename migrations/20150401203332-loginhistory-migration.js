@@ -3,12 +3,12 @@ module.exports = {
     migration.createTable(
       'loginHistory',
       {
-          id: {
+        id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
           },
-          userId: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: 'users',
@@ -16,10 +16,10 @@ module.exports = {
             onUpdate: 'cascade',
             onDelete: 'restrict'
           },
-          createdAt: {
+        createdAt: {
             type: DataTypes.DATE
           },
-          updatedAt: {
+        updatedAt: {
             type: DataTypes.DATE
           }
       }).then(function(){

@@ -1,7 +1,9 @@
+'use strict';
+
 let Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('ride', {
+  let Ride = sequelize.define('ride', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -24,10 +26,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   },
-  {
-    classMethods: {
-    associate: function(models) {
-      Ride.hasMany(models.user, {as: 'Users'});
-    }
-  });
+    {
+      classMethods: {
+        associate: function(models) {
+          Ride.hasMany(models.user, {as: 'Users'});
+        }
+      }
+    });
+  return Ride;
 };

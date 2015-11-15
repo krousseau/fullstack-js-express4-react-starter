@@ -3,38 +3,33 @@ var path         = require('path');
 var node_modules = path.resolve(__dirname, 'node_modules');
 
 var config = {
-    entry: {
-      app: './front-end/src/js/app/app.js',
-      admin: './front-end/src/js/admin/admin.js'
-    },
-    output: {
-      filename: '[name].js'
-    },
-    module: {
-        noParse: [],
-        loaders: [
-            {
-              test: /\.jsx?$/,
-              exclude: [node_modules],
-              loader: 'babel-loader'   // ES6 and jsx compiling
-            },
-            {
-              test: /\.jsx?$/,
-              exclude: [node_modules],
-              loader: 'eslint-loader'
-            }
-        ]
-    },
-    devtool: 'eval',
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
-    ]
+  entry: {
+    app: './front-end/src/js/app/app.js',
+    admin: './front-end/src/js/admin/admin.js'
+  },
+  output: {
+    filename: '[name].js'
+  },
+  module: {
+    noParse: [],
+    loaders: [
+        {
+          test: /\.jsx?$/,
+          exclude: [node_modules],
+          loader: 'babel-loader'   // ES6 and jsx compiling
+        }
+      ]
+  },
+  devtool: 'eval',
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js')
+  ]
 };
 
 // The minified files to use for development so webpack does not need to go in
 // and recompile these every time. This should not be in our prod configuration...
 var deps = [
-    'react/dist/react-with-addons.min.js'
+  'react/dist/react-with-addons.min.js'
 ];
 
 // Run through deps and extract the first part of the path,
