@@ -53,5 +53,19 @@ module.exports = function(app, passport) {
           });
     }));
 
+  router.route('/rides')
+    .get(function(req, res) {
+      res.send([{
+        id: 1,
+        start: {
+          longitude: 100,
+          latitude: 120,
+          name: 'Dorset Park'
+        },
+        length: 60,
+        unit: 'mi'
+      }]);
+    });
+
   return router;
 };

@@ -1,7 +1,8 @@
 import React from 'react';
-import Hello from './components/Hello.jsx';
+import ReactDOM from 'react-dom';
+import RideApp from './containers/RideApp.jsx';
 
-React.render(
-    React.createElement(Hello, null),
+ReactDOM.render(
+    <RideApp />,
     document.getElementById('react-app')
 );

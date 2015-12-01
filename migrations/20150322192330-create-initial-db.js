@@ -1,4 +1,4 @@
-let Promise = require('bluebird');
+var Promise = require('bluebird');
 
 function createUserRolesTable(migration, DataTypes){
     return migration.createTable(

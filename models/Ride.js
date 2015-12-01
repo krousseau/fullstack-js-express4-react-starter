@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
     {
       classMethods: {
         associate: function(models) {
-          Ride.hasMany(models.user, {as: 'Users'});
+          // Ride.hasMany(models.user, {as: 'Users'});
         }
       }
     });

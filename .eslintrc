@@ -11,14 +11,19 @@
   "parser": "babel-eslint",
   "rules": {
     "quotes": [2, "single"],
-    "strict": [2, "never"],
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
+    "react/no-multi-comp": 0,
+    "react/prop-types": 0,
     "prefer-const": 0,
     "no-multi-spaces": 0,
     "comma-dangle": [2, "never"],
-    "no-unused-vars": 0
+    "no-unused-vars": 0,
+    "no-use-before-define": 0,
+    "new-cap": 0,
+    "strict": 0,
+    "func-names": 0
   },
   "plugins": [
     "react"

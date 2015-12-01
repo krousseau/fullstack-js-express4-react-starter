@@ -9,7 +9,7 @@ export default class User extends Component {
     super(props, context);
   }
 
-  render(){
+  render() {
     const { user } = this.props;
     return (
       <li>

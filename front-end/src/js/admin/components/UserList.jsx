@@ -10,13 +10,13 @@ export default class UserList extends Component {
     super(props, context);
   }
 
-  render(){
+  render() {
     const { users } = this.props;
 
     return (
       <section id="main">
         <h2>Users</h2>
-        <ul className='user-list'>
+        <ul className="user-list">
           {users.map(user =>
             <User key={user.id} user={user} />
           )}

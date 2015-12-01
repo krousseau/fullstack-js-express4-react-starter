@@ -8,6 +8,7 @@ var config = {
     admin: './front-end/src/js/admin/admin.js'
   },
   output: {
+    path: 'public/js/',
     filename: '[name].js'
   },
   module: {
@@ -16,7 +17,7 @@ var config = {
         {
           test: /\.jsx?$/,
           exclude: [node_modules],
-          loader: 'babel-loader'   // ES6 and jsx compiling
+          loaders: ['babel-loader', 'eslint-loader']   // ES6 and jsx compiling
         }
       ]
   },
